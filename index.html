@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dropdown Menu with Submenu</title>
+    <link lef="stylesheet" href="2.CSS">
+    <link lef="stylesheet" href="logo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link lef="stylesheet" href="style.css">
+    <style>
+    /* Global Styles */
+    body {
+        font-family: 'Roboto', sans-serif; /* Modern, clean font */
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background-color: #f4f7f6; /* Light grey background */
+        color: #333;
+    }
+
+    /* --- Navigation Bar (Header Menu) --- */
+    nav {
+        background-color: #2c3e50; /* Deep blue/charcoal for a professional look */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    ul.menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center; /* Center the main menu items */
+    }
+
+    ul.menu > li {
+        position: relative;
+    }
+
+    ul.menu > li > a {
+        display: block;
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    ul.menu li a:hover {
+        background: #34495e; /* Slightly lighter on hover */
+        color: #e4f0f7;
+    }
+
+    /* Dropdown */
+    .submenu,
+    .sub-submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #34495e; /* Slightly darker than main menu for contrast */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        min-width: 220px; /* Increased width for readability */
+        z-index: 1000;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        border-top: 3px solid #007bff; /* Primary color accent */
+    }
+
+    .submenu li a,
+    .sub-submenu li a {
+        padding: 10px 18px;
+        color: white;
+        display: block;
+        text-decoration: none;
+        transition: background 0.3s, color 0.3s;
+        font-size: 14px;
+    }
+    
+    .submenu li a:hover,
+    .sub-submenu li a:hover {
+        background: #007bff; /* Primary color on hover */
+        color: white;
+    }
+
+    .submenu li:hover .sub-submenu {
+        display: block;
+        left: 100%;
+        top: 0;
+    }
+
+    /* Show submenu on hover */
+    ul.menu li:hover > .submenu {
+        display: block;
+    }
+
+    /* Arrow indicators */
+    .has-submenu > a::after {
+        content: " \25BC"; /* Unicode for small down arrow */
+        font-size: 0.6em;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
+
+    .submenu .has-submenu > a::after {
+        content: " \25B6"; /* Unicode for right arrow */
+        margin-left: 10px;
+    }
+    
+    /* --- Middle Container (Logo/Institute Info) --- */
+    .middle-container {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff; /* White background */
+        padding: 20px 40px;
+        border-bottom: 3px solid #f0f0f0; /* Subtle separator */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        max-width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-right: 30px;
+        padding: 0;
+    }
+
+    .logo img {
+        width: 100px; /* Increased logo size */
+        height: auto;
+       /* Optional: round logo */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .institute-name {
+        text-align: left;
+    }
+
+    .institute-name h1 {
+        margin: 0 0 5px;
+        font-size: 28px;
+        color: #2c3e50;
+    }
+
+    .institute-name p {
+        margin: 5px 0 0;
+        font-size: 15px;
+        line-height: 1.4;
+        color: #555;
+    }
+    
+    .institute-name span {
+        font-size: 20px;
+        font-weight: 700;
+        color: #007bff !important; /* Primary color for main name */
+    }
+    
+    /* --- Marquee/Announcement Bar --- */
+    #mark {
+        background-color: #ff6f61; /* Bright, noticeable color */
+        color: white;
+        height: 40px;
+        line-height: 40px;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+        border-bottom: 2px solid #e74c3c;
+    }
+    
+    /* --- Main Content Images --- */
+    /* Adjusting images to fit the screen better while maintaining aspect ratio */
+    .main-content-image {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* --- Footer --- */
+    .footer {
+        background-color: #2c3e50; /* Same as nav bar for cohesion */
+        color: #bdc3c7; /* Light grey text */
+        padding: 40px 80px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        text-align: left;
+    }
+
+    .footer div {
+        flex: 1;
+        min-width: 250px;
+        margin: 10px 20px;
+    }
+
+    .footer h4, .footer-logo {
+        color: #ffffff; /* White headings */
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007bff; /* Accent line */
+        padding-bottom: 5px;
+        display: inline-block;
+    }
+    
+    .footer p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #bdc3c7;
+    }
+
+    .footer a {
+        color: #bdc3c7;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        transition: color 0.3s;
+    }
+
+    .footer a:hover {
+        color: #007bff; /* Primary color on hover */
+    }
+    
+    .footer .social-icons a {
+        margin-right: 15px;
+        display: inline-block; /* Social links back to inline */
+    }
+
+
+    /* Social Icons - Using Font Awesome Colors */
+    .fa {
+        padding: 10px;
+        font-size: 18px; /* Slightly larger icons */
+        width: 18px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        border-radius: 50%;
+        color: white; /* Ensure icons are white */
+    }
+
+    .fa:hover {
+        opacity: 0.9;
+        transform: scale(1.1);
+    }
+    
+    /* Specific Colors for Social Icons */
+    .fa-facebook { background: #3B5998; }
+    .fa-twitter { background: #55ACEE; }
+    .fa-linkedin { background: #007bb5; }
+    .fa-youtube { background: #bb0000; }
+    .fa-instagram { background: #E1306C; /* Instagram's color */ }
+
+    .footer-bottom {
+        background-color: #1f2a3a; /* Even darker bottom bar */
+        color: #979494;
+        text-align: center;
+        padding: 15px;
+        font-size: 13px;
+    }
+    
+    /* --- Responsive Adjustments (Optional but Recommended) --- */
+    @media (max-width: 900px) {
+        ul.menu {
+            flex-direction: column;
+            align-items: center;
+        }
+        ul.menu > li {
+            width: 100%;
+            border-bottom: 1px solid #34495e;
+        }
+        ul.menu li a {
+            text-align: center;
+        }
+        .submenu, .sub-submenu {
+            position: static; /* Dropdowns stack vertically */
+            width: 100%;
+            border-top: none;
+            box-shadow: none;
+        }
+        .submenu li:hover .sub-submenu {
+            left: 0;
+            top: auto;
+        }
+        .has-submenu > a::after,
+        .submenu .has-submenu > a::after {
+            content: " \25BC"; /* Use down arrow for all in mobile view */
+        }
+    }
+</style>
+    <link lef="stylesheet" href="div1.css">
+</head>
+
+<body>
+
+    <nav>
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li class="has-submenu">
+                <a href="#">About</a>
+                <ul class="submenu">
+                    <li><a href="vision and Mission.html">Vision & Mission</a></li>
+
+                    <li><a href="Sport.html">Sports</a></li>
+                    <li><a href="Achivements.html">Activities</a></li>
+                    <li class="has-submenu">
+                        <a href="#">Management</a>
+                        <ul class="sub-submenu">
+                            <li><a href="HOD messeges.html">HOD Messages</a></li>
+                            <li><a href="display_faculty.php">Teacher Messages</a></li>
+                            <li><a href="Central Computer Center.html">Central Computer Center</a></li>
+                           
+                            <li><a href="Student Council Meeting.html">Student Council meeting</a></li>
+                        </ul>
+
+                    </li>
+
+            </li>
+        </ul>
+        </li>
+            <li><a href="faculty_index.php">Faculty</a></li>
+                
+            <li><a href="Notice.html">Notice</a></li>
+            <li><a href="Downloads.html">Downloads</a></li>
+            <li><a href="Admin_index.php">Admin</a></li>
+        <li><a href="registrations_student.php">Student</a></li>
+       
+        </ul>
+        </li>
+        
+        
+        </ul>
+    </nav>
+
+    <script>
+        // Optional JS for mobile menu click toggle
+        document.querySelectorAll(".has-submenu > a").forEach(anchor => {
+            anchor.addEventListener("click", function (e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const submenu = this.nextElementSibling;
+                    submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+                }
+            });
+        });
+    </script>
+    
+    <div class="middle-container">
+    <div class="logo" >
+      <!-- Replace with your logo image -->
+      <left><img src="images/2.jpeg" width="70px" height="80px" alt="Logo"></left>
+    </div>
+    <div class="institute-name">
+    <p class="text">Yashoda Shikshan Prasarak Mandal's<br>
+                <span style="color: rgb(249, 35, 35);">Yashoda Technical Campus, Satara- Faculty of MCA</span><br>
+                Approved By AICTE, New Delhi & Govt. Of Maharashtra(DTE Mumbai),<br>
+                Affiliated to Shivaji University, Kolhapur<br>
+                Accredited By NAAC and NBA
+            </p>
+    </div>
+  </div>
+  
+
+    
+    
+</div>
+        <img src="images/WS.PNG" height="600px" width="1350px">
+        <br>
+        <!DOCTYPE html>
+
+<style>
+    body {
+        font-family: 'Open Sans', Arial, sans-serif;
+        background-color: #ffeae0;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        color: #1e4c70;
+        margin-top: 40px;
+        font-size: 1.8em;
+        position: relative;
+    }
+
+    h2::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: #00bcd4;
+        margin: 10px auto 0;
+        border-radius: 2px;
+    }
+
+    /* Main Container */
+    .why-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        padding: 40px 20px;
+    }
+
+    /* Feature Boxes (left & right) */
+    .features {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 220px;
+    }
+
+    .feature-box {
+        background-color: #00bcd4;
+        color: white;
+        border: 2px dashed white;
+        padding: 10px;
+        text-align: center;
+        font-weight: 600;
+        border-radius: 4px;
+    }
+
+    .feature-box:nth-child(odd) {
+        background-color: #00acc1;
+    }
+
+    /* Diamond Grid Center */
+    .diamond-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 120px);
+        grid-template-rows: repeat(3, 120px);
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .diamond {
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        transform: rotate(45deg);
+        border: 4px solid white;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .diamond img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: rotate(-45deg) scale(1.4);
+    }
+
+    .diamond.center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+    }
+
+    .diamond.center img {
+        transform: rotate(-45deg);
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+    }
+
+    /* Job Assured Box */
+    .job-box {
+        background-color: #00bcd4;
+        color: white;
+        border: 2px dashed white;
+        padding: 10px 20px;
+        font-weight: bold;
+        text-align: center;
+        width: fit-content;
+        margin: 30px auto;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 992px) {
+        .why-container {
+            flex-direction: column;
+        }
+
+        .features {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .diamond-grid {
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 15px;
+        }
+
+        .diamond {
+            width: 100px;
+            height: 100px;
+        }
+        
+        
+    }
+</style>
+
+
+<h2>Why YSPM</h2>
+
+<div class="why-container">
+    <!-- Left Features -->
+    <div class="features">
+        <div class="feature-box">Scholarship as per Govt. norms</div>
+        <div class="feature-box">Hostel for Girls & Boys in campus</div>
+        <div class="feature-box">Bus Facility (From Satara District)</div>
+        <div class="feature-box">Well qualified and experienced faculties</div>
+        <div class="feature-box">Well equipped Laboratories</div>
+        <div class="feature-box">Digital Library and Wi-fi campus</div>
+        <div class="feature-box">Sports / Gym facilities</div>
+        <div class="feature-box">Nearest campus to Satara City</div>
+    </div>
+
+    <!-- Center Diamond Grid -->
+    <div class="center-collage">
+    <img src="images/img1.jpg" alt="">
+    <img src="images/img2.jpg" alt="">
+    <img src="images/img3.jpg" alt="">
+    <img src="images/img4.jpg" alt="">
+    <img src="images/logo.png" alt="">
+    <img src="images/img5.jpg" alt="">
+    <img src="images/img6.jpg" alt="">
+    <img src="images/img7.jpg" alt="">
+    <img src="images/img8.jpg" alt="">
+    </div>
+
+    <!-- Right Features -->
+    <div class="features">
+        <div class="feature-box">Campus interviews</div>
+        <div class="feature-box">Industrial Tours / Visits</div>
+        <div class="feature-box">Green, clean and healthy campus</div>
+        <div class="feature-box">Guest / expert lectures of eminent personalities</div>
+        <div class="feature-box">RO water & Canteen facility</div>
+        <div class="feature-box">24 / 7 reading room facility</div>
+        <div class="feature-box">Well equipped computer IT facilities</div>
+        <div class="feature-box">Co-operative store</div>
+    </div>
+</div>
+
+<div class="job-box">100% Job Assured</div>
+
+
+<!-- Footer -->
+  <footer>
+    <div class="footer">
+      <!-- Column 1: Logo and Description -->
+      <div>
+       <u><div class="footer-logo">Useful Links</div></u>
+        <div class="social-icons">
+        <a href="#">Fee Proposal's</a><br>
+        <a href="#">Payment Gateway</a><br>
+        <a href="#">Online Payment Terms and Conditions</a><br>
+        <a href="#">Apply for transcript</a><br>
+        <a href="#">Apply For Student Verification</a><br>
+        <a href="#">Apply for T360</a><br>
+        <a href="#">AICTE Feedback</a><br>
+        <a href="#">Anti-ragging Undertaking</a><br>
+        <a href="#">Grievence Portal</a><br>
+        <a href="#">Mandatory Disclosure</a>
+        </div>
+      </div>
+      <!-- Column 2: Logo and Description -->
+      <div>
+        <u><div class="footer-logo">Important Links</div></u>
+       
+        <div class="social-icons">
+          
+        <a href="http://www.dtemaharashtra.gov.in">DTE</a><br>
+        <a href="http://www.unishivaji.ac.in">Shivaji University Kolhapur</a><br>
+        <a href="https://mahadbtmahait.gov.in">MahaDBT</a><br>
+        <a href="https://www.india.gov.in">Govt Of India</a><br>
+        <a href="https://www.maharashtra.gov.in">Govt Of Maharashtra</a><br>
+        <a href="https://scholarships.gov.in">National Scholarship Portal</a><br>
+        <a href="https://nptel.ac.in">NTPEL</a>
+        </div>
+      </div>
+
+      <!-- Column 3: Contact Info -->
+      <div>
+        <u><h4>Contact Us</h4></u>
+        <b><p>YSPM</p></b>
+        <b><p>Yashoda Technical Campus Of MCA</p></b>
+        <p>Satara Wadhe, NH-4,Satara,Maharashtra-415011</p>
+        <p>+91-9172220775</p>
+        <p>yspmadmin@yes.edu.in</p>
+        <p>www.yes.edu.in</p>
+
+      </div>
+
+      <!-- Column 4: Useful Links -->
+      <div class="links">
+        <u><h4>Connect With</h4></u>
+       <a href="https://www.facebook.com/yss.satra" class="fa fa-facebook"></a>
+          <a href="https://twitter.com/YSPMYTC" class="fa fa-twitter"></a>
+          <a href="https://www.instagram.com/yashodainstitutes/" class="fa fa-instagram"></a>
+          <a href="https://www.youtube.com/@yspm2015" class="fa fa-youtube"></a>
+          <a href="https://linkedin.com/in/yashoda-institutes-8b1b00317" class="fa fa-linkedin"></a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      Copyright © 2025 Yashoda Technical Campus of MCA, Satara All Rights Reserved.
+    </div>
+  </footer>
+
+</div>
+</body>
+
+</html>
